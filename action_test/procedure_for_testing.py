@@ -50,6 +50,6 @@ class RandomProcedure(Procedure):
             self.emit('results', data)
             self.emit('progress', 100. * i / self.iterations)
             sleep(self.delay)
-            print(i, monotonic)
+            print(i, monotonic())
             if self.should_stop():
                 break
