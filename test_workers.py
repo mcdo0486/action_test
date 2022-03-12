@@ -38,7 +38,7 @@ tcp_libs_available = bool(importlib.util.find_spec('cloudpickle')
                           and importlib.util.find_spec('zmq'))
 
 # Load the procedure, without it being in a module
-data_path = os.path.join(os.path.dirname(__file__), 'data/procedure_for_testing.py')
+data_path = os.path.join(os.path.dirname(__file__), '/procedure_for_testing.py')
 RandomProcedure = SourceFileLoader('procedure', data_path).load_module().RandomProcedure
 # from data.procedure_for_testing import RandomProcedure
 
