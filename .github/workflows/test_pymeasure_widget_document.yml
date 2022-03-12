@@ -46,9 +46,9 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           echo "::add-matcher::.github/pytest.json"
-          xvfb-run -a python setup.py pytest
+          xvfb-run -a python setup.py pytest --addopts -s
       - name: Run pytest
         if: runner.os != 'Linux'
         run: |
           echo "::add-matcher::.github/pytest.json"
-          python setup.py pytest
+          python setup.py pytest --addopts -s
