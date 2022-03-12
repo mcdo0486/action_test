@@ -1,4 +1,4 @@
-name: PyMeasure master
+name: PyMeasure widget_document
 on:
   push:
     branches:
@@ -37,7 +37,7 @@ jobs:
       - name: Install any packages missing in conda with pip
         run: |
           conda activate pymeasure
-          pip install git+https://github.com/pymeasure/pymeasure@master
+          pip install git+https://github.com/mcdo0486/pymeasure@widget_document
       - name: Conda info & list
         run: |
           conda info
