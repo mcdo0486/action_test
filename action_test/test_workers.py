@@ -24,6 +24,7 @@
 import importlib
 import logging
 
+from time import monotonic
 import pytest
 import os
 import tempfile
@@ -106,8 +107,11 @@ def test_zmq_does_not_crash_worker(caplog):
     # If we define a port here we get ZMQ communication
     # if cloudpickle is installed
     worker = Worker(results, port=5888, log_level=logging.DEBUG)
+    print(worker._started._cond, worker._started._flag, monotonic())
     worker.start()
-    worker.join(timeout=4.0)  # give it enough time to finish the procedure
+    print(worker._started._cond, worker._started._flag, monotonic())
+    worker.join(timeout=20.0)  # give it enough time to finish the procedure
+    print(worker._started._cond, worker._started._flag, monotonic())
     assert procedure.status == procedure.FINISHED
     del worker  # make sure to clean up, reduce the possibility of test
     # dependencies via left-over sockets
