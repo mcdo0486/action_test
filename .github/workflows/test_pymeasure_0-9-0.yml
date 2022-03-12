@@ -38,9 +38,11 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           echo "::add-matcher::.github/pytest.json"
+          conda activate pymeasure
           xvfb-run -a python pytest
       - name: Run pytest
         if: runner.os != 'Linux'
         run: |
           echo "::add-matcher::.github/pytest.json"
+          conda activate pymeasure
           python pytest
