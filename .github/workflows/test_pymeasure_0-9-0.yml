@@ -29,7 +29,7 @@ jobs:
       - name: Install any packages missing in conda with pip
         run: |
           conda activate pymeasure
-          pip install pymeasure pytest pyzmq pytest-runner
+          pip install pymeasure pytest pyzmq pytest-runner cloudpickle
       - name: Conda info & list
         run: |
           conda info
