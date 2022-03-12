@@ -27,7 +27,7 @@ from pymeasure.experiment import (
     Parameter, FloatParameter
 )
 import random
-from time import sleep
+from time import sleep, monotonic
 
 
 class RandomProcedure(Procedure):
@@ -50,5 +50,6 @@ class RandomProcedure(Procedure):
             self.emit('results', data)
             self.emit('progress', 100. * i / self.iterations)
             sleep(self.delay)
+            print(i, monotonic)
             if self.should_stop():
                 break
