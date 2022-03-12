@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='test_action',
+    name='action_test',
     setup_requires=[
         'pytest-runner'
     ],
