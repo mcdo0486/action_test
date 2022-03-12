@@ -37,7 +37,7 @@ jobs:
       - name: Install any packages missing in conda with pip
         run: |
           conda activate pymeasure
-          pip install pymeasure
+          pip install git+https://github.com/pymeasure/pymeasure@master
       - name: Conda info & list
         run: |
           conda info
