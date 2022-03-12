@@ -1,0 +1,9 @@
+name: pymeasure
+channels:
+  - conda-forge
+dependencies:
+  - cloudpickle=1.6.0
+  - pyzmq=22.3.0
+  - pytest-runner=5.2
+  - pytest=6.2.5
+  - pip  # don't pin, to gain newest conda compatibility fixes

@@ -23,13 +23,14 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
+          environment-file: conda_requirements.yml
           activate-environment: pymeasure
           auto-update-conda: true
           use-only-tar-bz2: true  # for caching to work properly
       - name: Install any packages missing in conda with pip
         run: |
           conda activate pymeasure
-          pip install pymeasure pytest pyzmq pytest-runner cloudpickle
+          pip install pymeasure
       - name: Conda info & list
         run: |
           conda info
