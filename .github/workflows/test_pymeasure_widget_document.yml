@@ -1,0 +1,54 @@
+name: PyMeasure master
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}, ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          CACHE_NUMBER: 0  # Increase to reset the cache
+        with:
+          path: ~/conda_pkgs_dir
+          key: py3.8-ubuntu-latest-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('conda_requirements.yml') }}
+      - name: Install pymeasure requirements
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          environment-file: conda_requirements.yml
+          activate-environment: pymeasure
+          auto-update-conda: true
+          use-only-tar-bz2: true  # for caching to work properly
+      - name: Install any packages missing in conda with pip
+        run: |
+          conda activate pymeasure
+          pip install git+https://github.com/pymeasure/pymeasure@master
+      - name: Conda info & list
+        run: |
+          conda info
+          conda list
+      - name: Run pytest with xvfb
+        if: runner.os == 'Linux'
+        run: |
+          echo "::add-matcher::.github/pytest.json"
+          xvfb-run -a python setup.py pytest
+      - name: Run pytest
+        if: runner.os != 'Linux'
+        run: |
+          echo "::add-matcher::.github/pytest.json"
+          python setup.py pytest
