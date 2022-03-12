@@ -20,12 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Cache conda
-          uses: actions/cache@v2
-          env:
-            CACHE_NUMBER: 0  # Increase to reset the cache
-          with:
-            path: ~/conda_pkgs_dir
-            key: py3.8-ubuntu-latest-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('conda_requirements.yml') }}
+        uses: actions/cache@v2
+        env:
+          CACHE_NUMBER: 0  # Increase to reset the cache
+        with:
+          path: ~/conda_pkgs_dir
+          key: py3.8-ubuntu-latest-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('conda_requirements.yml') }}
       - name: Install pymeasure requirements
         uses: conda-incubator/setup-miniconda@v2
         with:
