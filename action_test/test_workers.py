@@ -110,7 +110,7 @@ def test_zmq_does_not_crash_worker(caplog):
     print(worker._started._cond, worker._started._flag, monotonic())
     worker.start()
     print(worker._started._cond, worker._started._flag, monotonic())
-    worker.join(timeout=20.0)  # give it enough time to finish the procedure
+    worker.join(timeout=4.0)  # give it enough time to finish the procedure
     print(worker._started._cond, worker._started._flag, monotonic())
     assert procedure.status == procedure.FINISHED
     del worker  # make sure to clean up, reduce the possibility of test
@@ -138,7 +138,7 @@ def test_zmq_topic_filtering_works(caplog):
     listener = Listener(port=5888, topic='results', timeout=0.1)
     sleep(0.5)  # leave time for subscriber and publisher to establish a connection
     worker.start()
-    while True:
+    for i in range(3):
         if not listener.message_waiting():
             break
         topic, record = listener.receive()
