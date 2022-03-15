@@ -61,7 +61,7 @@ def test_worker_stop():
     worker.start()
     worker.stop()
     assert worker.should_stop()
-    worker.join()
+    worker.join(timeout=20)
 
 
 def test_worker_finish():
@@ -72,7 +72,7 @@ def test_worker_finish():
     results = Results(procedure, file)
     worker = Worker(results)
     worker.start()
-    worker.join(timeout=5)
+    worker.join(timeout=20)
 
     assert not worker.is_alive()
 
@@ -88,7 +88,7 @@ def test_worker_closes_file_after_finishing():
     results = Results(procedure, file)
     worker = Worker(results)
     worker.start()
-    worker.join(timeout=5)
+    worker.join(timeout=20)
 
     # Test if the file has been properly closed by removing the file
     os.remove(file)
@@ -110,12 +110,13 @@ def test_zmq_does_not_crash_worker(caplog):
     print(worker._started._cond, worker._started._flag, monotonic())
     worker.start()
     print(worker._started._cond, worker._started._flag, monotonic())
-    worker.join(timeout=4.0)  # give it enough time to finish the procedure
+    worker.join(timeout=20.0)  # give it enough time to finish the procedure
     print(worker._started._cond, worker._started._flag, monotonic())
     assert procedure.status == procedure.FINISHED
     del worker  # make sure to clean up, reduce the possibility of test
     # dependencies via left-over sockets
 
+import zmq
 
 @pytest.mark.skipif(not tcp_libs_available,
                     reason='TCP communication packages not installed')
@@ -138,12 +139,12 @@ def test_zmq_topic_filtering_works(caplog):
     listener = Listener(port=5888, topic='results', timeout=0.1)
     sleep(0.5)  # leave time for subscriber and publisher to establish a connection
     worker.start()
-    for i in range(3):
+    while True:
         if not listener.message_waiting():
             break
-        topic, record = listener.receive()
+        topic, record = listener.receive(flags=zmq.NOBLOCK)
         received.append((topic, record))
-    worker.join(timeout=4.0)  # give it enough time to finish the procedure
+    worker.join(timeout=20.0)  # give it enough time to finish the procedure
     assert procedure.status == procedure.FINISHED
     assert len(received) == 3
     assert all([item[0] == 'results' for item in received])
