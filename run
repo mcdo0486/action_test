@@ -1,1 +1,1 @@
-20 & setsockopt(zmq.CONNECT_TIMEOUT) & zmq.NOBLOCK 58
+20 & setsockopt(zmq.CONNECT_TIMEOUT) & zmq.NOBLOCK 59
