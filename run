@@ -1,1 +1,1 @@
-4.0 & range(3) 54
+20 & setsockopt(zmq.CONNECT_TIMEOUT & range(3) 54
