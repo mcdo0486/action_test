@@ -1,4 +1,4 @@
-name: PyMeasure widget_document
+name: PyMeasure test_worker_timeout
 on:
   push:
     branches:
@@ -37,7 +37,7 @@ jobs:
       - name: Install any packages missing in conda with pip
         run: |
           conda activate pymeasure
-          pip install git+https://github.com/mcdo0486/pymeasure@widget_document
+          pip install git+https://github.com/mcdo0486/pymeasure@test_worker_timeout
       - name: Conda info & list
         run: |
           conda info
